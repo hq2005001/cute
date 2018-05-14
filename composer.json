@@ -1,0 +1,16 @@
+{
+    "name": "echo/cue",
+    "description": "a micro php framework",
+    "authors": [
+        {
+            "name": "hq2005001",
+            "email": "305706352@qq.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Cute\\": "vendor/Cute/"
+        }
+    }
+}
