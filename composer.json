@@ -7,10 +7,14 @@
             "email": "305706352@qq.com"
         }
     ],
-    "require": {},
+    "require": {
+        "twig/twig": "^2.4",
+        "catfan/Medoo": "^1.5"
+    },
     "autoload": {
         "psr-4": {
-            "Cute\\": "vendor/Cute/"
+            "Cute\\": "vendor/cute/",
+            "app\\": "app/"
         }
     }
 }
