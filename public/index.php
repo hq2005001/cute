@@ -14,6 +14,5 @@ define('ASSET_ROOT ', ROOT . '/public/assets');
 
 require ROOT . '/vendor/autoload.php';
 
-
 \Cute\App::getInstance()->run();
 

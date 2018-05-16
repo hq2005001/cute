@@ -11,9 +11,9 @@ class IndexController extends \Cute\Controller
 
     public function index()
     {
-        $result = app()->model('Movie')->setData([
-            'account' => 'hq2005002',
-            'email' => '305706353@qq.com',
+        $result = app()->model('Movie')->setData([[
+            'account' => 'hq2005005',
+            'email' => '305706356@qq.com',
             'password' => md5('123456'),
             'username' => 'hq2005001',
             'gender'=>'male',
@@ -22,10 +22,9 @@ class IndexController extends \Cute\Controller
             'belonging' =>1,
             'created_at' => time(),
             'updated_at' => time()
-        ])->addOne();
-        dd($result);
+        ]])->addAll();
         return view('index/index.html', [
-            'data' => $name
+            'data' => $result
         ]);
     }
 
