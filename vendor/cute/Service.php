@@ -12,8 +12,7 @@ class Service
      * @var array
      */ 
     protected $configs = [];
-
-
+    
     /**
      * 得到类配置文件
      *
