@@ -84,10 +84,17 @@ class App extends Singleton
         self::$started = true;
         //设置异常捕获
         set_exception_handler([app('exception'), 'handle']);
+        $isCrontab = !empty($_SERVER['argv']);
+        //判断是否是脚本任务
+        if ($isCrontab && !empty($_SERVER['argv'][1])) {
+            // crontab的参数
+            $_SERVER['REQUEST_URI'] = trim($_SERVER['argv'][1], '?& ');
+        }
+        define('IS_CRONTAB', $isCrontab);
+
         //开始处理请求
         app('req')->start();
-        
-    }    
+    }
 
     /**
      * 得到对象
@@ -141,6 +148,18 @@ class App extends Singleton
             self::set('controllers.' . $className, $obj);
         }
         return self::$objects['controllers'][$className];
+    }
+
+    public function crontab($className)
+    {
+        //把路径中的反斜线转成正斜线
+        $className = str_replace('/', '\\', $className);
+        $className = str_replace('\\\\', '\\', '\\app\\crontab\\' . $className);
+        if (!isset(self::$objects['crontabs']) || !array_key_exists($className, self::$objects['crontabs'])) {
+            $obj = new $className();
+            self::set('crontabs.' . $className, $obj);
+        }
+        return self::$objects['crontabs'][$className];
     }
 
     /**

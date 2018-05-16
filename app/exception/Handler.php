@@ -1,7 +1,7 @@
 <?php
 /**
  * 异常处理类
- * @author hq
+ * @author hq <305706352@qq.com>
  */
 namespace app\exception;
 
@@ -13,6 +13,6 @@ class Handler extends \Cute\exceptions\ExceptionHandler
         if($e instanceof \PDOException) {
             app('res')->dispatch($result);
         }
-        parent::handle($e);
+        parent::handleException($e, $result);
     }
 }

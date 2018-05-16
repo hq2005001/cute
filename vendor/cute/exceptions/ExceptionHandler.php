@@ -1,4 +1,8 @@
 <?php
+/**
+ * 异常处理类
+ * @author hq <305706352@qq.com>
+ */
 
 namespace Cute\exceptions;
 
@@ -17,9 +21,18 @@ class ExceptionHandler
             $result = $message;
         }
         app()->log($message);
-        $this->handleException($e, $result);
+        if(IS_CRONTAB) {
+            $this->handleCrontabException($e, $result);
+        } else {
+            $this->handleException($e, $result);
+        }
     }
     
+    protected function handleCrontabException($e, $result) {
+        dd($result);
+    }
+
+
     protected function handleException($e, $result)
     {
         if($e instanceof FileNotFoundException) {

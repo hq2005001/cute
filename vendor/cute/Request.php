@@ -77,8 +77,10 @@ class Request
         $this->init();
         //处理链接
         $this->parseUri();
-        //如果没有后缀我们认为它是静态文件
-        if ($this->isAsset) {
+        //
+        if(IS_CRONTAB) {
+            $this->parseCrontab();
+        } else if ($this->isAsset) {
             $this->parseStatic();
         } else {
             //处理参数
@@ -124,6 +126,14 @@ class Request
         app('res')->dispatch($result);
     }
 
+    /**
+     * 解析命令行任务
+     */
+    public function parseCrontab()
+    {
+        app()->crontab($this->path)->run();
+    }
+    
     /**
      * 解析URI
      *

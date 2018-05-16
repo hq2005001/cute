@@ -8,8 +8,7 @@
         }
     ],
     "require": {
-        "twig/twig": "^2.4",
-        "catfan/Medoo": "^1.5"
+        "twig/twig": "^2.4"
     },
     "autoload": {
         "psr-4": {
