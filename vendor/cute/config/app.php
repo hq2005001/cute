@@ -12,4 +12,5 @@ return [
     'jwt' => Cute\ext\Jwt::class, //jwt验证类
     
     'route' => Cute\Route::class, //路由类
+    'session' => Cute\Session::class, //session类
 ];

@@ -32,4 +32,13 @@ class IndexController extends \Cute\Controller
     {
         return [app()->req->get('name')];
     }
+
+
+    public function test()
+    {
+        $name = app('req')->get('name', 'hq');
+        app('session')->set('name', $name);
+        $name = app('session')->get('name', '6666');
+        return $this->apiData(['name'=>$name]);
+    }
 }

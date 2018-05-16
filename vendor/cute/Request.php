@@ -13,6 +13,7 @@ class Request
     protected static $started = false;
 
     protected $controller;
+    protected $domains = [];
 
     /**
      * 请求文件路径
@@ -234,9 +235,45 @@ class Request
         return isset($this->request->header['x-real-ip']) ? $this->request->header['x-real-ip'] : $this->request->server['remote_addr'];
     }
 
-    public function domain()
-    {
-        return app('config')->get('domain', '');
+    /**
+     * 获得域名定义
+     * 默认当前请求域名
+     * @param string $url 带域名url
+     * @param int $key 0域名，1\2\3对应顶级、二级、三级域名字符
+     * @return array|string
+     */
+    public function domain($key = 0, $url = null) {
+        if (empty($url)) {
+            if (!empty($this->domains)) {
+                $ds = $this->domains;
+                return $key === null ? $ds : (isset($ds[$key]) ? $ds[$key] : '');
+            }
+            $host = $_SERVER['HTTP_HOST'];
+        } else {
+            $host = $url;
+        }
+
+        // 取出域名部分
+        if ($pos = strpos($host, '://'))
+            $host = substr($host, $pos + 3);
+        $host = preg_replace('/[^\w\._-].*$/i', '', strtolower($host));
+
+        $ds = explode('.', $host);
+        $ct = count($ds);
+        if ($ct > 1) {
+            $slds = ['com' => 1, 'edu' => 1, 'gov' => 1, 'net' => 1, 'org' => 1, 'info' => 1];  // 排.com.cn类似形式域名
+            if ($ct > 2 && isset($slds, $ds[$ct - 2]) && !isset($slds, $ds[$ct - 1])) {
+                $ds[$ct - 2] .= ".{$ds[$ct - 1]}";
+                unset($ds[--$ct]);
+            }
+            $ds[$ct - 2] .= ".{$ds[$ct - 1]}";
+            $ds[$ct - 1] = $host;
+            $ds = array_reverse($ds);
+        }
+        if (empty($url)) {
+            $this->domains = $ds;
+        }
+        return $key === null ? $ds : (isset($ds[$key]) ? $ds[$key] : '');
     }
 
 }

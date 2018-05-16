@@ -217,6 +217,9 @@ class Mysql extends DB
     {
         $this->params = [];
         $data = $this->data;
+        if(empty($data)) {
+            throw new \Cute\exceptions\DBException('插入数据不能为空');
+        }
         $sql = ['insert into'];
         $sql[] = $this->table;
         $multi = isset($data[0]) && is_array($data[0]);
@@ -260,17 +263,17 @@ class Mysql extends DB
     public function update($options = [])
     {
         $this->options($options);
+        $this->params = [];
         $sql = ['update'];
         $sql[] = $this->table;
+        if(empty($this->data)) {
+            throw new \Cute\exceptions\DBException('更新数据不能为空');
+        }
         foreach ($this->data as $key => $value) {
-            $data[] = "{$key}='$value'";
+            $data[] = "{$key}=:{$key}";
+            $this->params[":{$key}"] = $value;
         }
-        if (!empty($data)) {
-            $sql[] = 'set ' . implode(' and ', $data);
-        } else {
-            echo 'error';
-            exit;
-        }
+        $sql[] = 'set ' . implode(' and ', $data);
         $sql[] = 'where ' . $this->parseQuery($this->query);
         if (!empty($this->limit)) {
             $sql[] = 'limit ' . $this->sort . ',' . $this->limit;

@@ -19,5 +19,10 @@ return [
         'template_path' => APP_ROOT . '/view',
         'cache_path' => STORAGE_ROOT . '/view/cache',
     ],
+
+    'session' => [
+        'name' => 'CUTESESSID',
+        'domain' => 1,
+    ]
     
 ];

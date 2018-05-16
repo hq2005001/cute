@@ -301,3 +301,25 @@ if(!function_exists('dd')) {
         exit;
     }
 }
+
+/**
+ * array merge extend
+ * 深度扩展合并数组
+ *
+ * @param array $array 数组1
+ * @param array $array1 数组2
+ * @param boolean $override 如果为true，当对应数据为空时才覆盖
+ * @return array
+ */
+if(!function_exists('array_extend')) {
+    function array_extend(&$array, $array1, $override = true) {
+        foreach ($array1 as $key => $value) {
+            if (isset($array [$key]) && is_array($array [$key]) && is_array($value)) {
+                array_extend($array[$key], $value);
+            } elseif ($override || empty($array [$key])) {
+                $array [$key] = $value;
+            }
+        }
+        return $array;
+    }    
+}
