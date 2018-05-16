@@ -369,7 +369,7 @@ trait AuditData
      * @param mixed $value
      * @param mixed $rule
      * @return mixed
-     * @throws v\ArgumentsException
+     * @throws exceptions\FieldsValidateException
      */
     protected function validByRule($value, $rule)
     {
@@ -391,7 +391,7 @@ trait AuditData
 
             case 'regex': // 正则表达式
                 if (empty($rule[1])) {
-                    throw new v\ArgumentsException('Arguments has error in regex valid');
+                    throw new \Cute\exceptions\FieldsValidateException('Arguments has error in regex valid');
                 }
 
                 $regex = $rule[1];
@@ -443,7 +443,7 @@ trait AuditData
 
             case 'equal': // 相等
                 if (empty($rule[1])) {
-                    throw new v\ArgumentsException('Arguments has error in equal valid');
+                    throw new \Cute\exceptions\FieldsValidateException('Arguments has error in equal valid');
                 }
 
                 $equal = $rule[1];
@@ -469,7 +469,7 @@ trait AuditData
 
             case 'exist': // 只在数组内
                 if (empty($rule[1])) {
-                    throw new v\ArgumentsException('Arguments has error in inArray valid');
+                    throw new \Cute\exceptions\FieldsValidateException('Arguments has error in inArray valid');
                 }
 
                 $array = $rule[1];
