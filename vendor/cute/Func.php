@@ -334,15 +334,13 @@ if(!function_exists('array_extend')) {
 if(!function_exists('url_for')) {
     
     function url_for($url, $params=[], $fullPath=false) {
+        $url = app('route')->build($url, $params);
         if($fullPath) {
             $domain = app('req')->protocol().app('req')->domain().'/';
         } else {
             $domain = '/';
         }
         $url = $domain.trim($url, ' /');
-        if(!empty($params)){
-            $url .= '?'.http_build_query($params);
-        }
         return $url;
     }
 }
