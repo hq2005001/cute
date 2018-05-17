@@ -323,3 +323,26 @@ if(!function_exists('array_extend')) {
         return $array;
     }    
 }
+
+/**
+ * 得到url
+ *
+ * @param string $url
+ * @param boolean $fullPath
+ * @return string
+ */
+if(!function_exists('url_for')) {
+    
+    function url_for($url, $params=[], $fullPath=false) {
+        if($fullPath) {
+            $domain = app('req')->protocol().app('req')->domain().'/';
+        } else {
+            $domain = '/';
+        }
+        $url = $domain.trim($url, ' /');
+        if(!empty($params)){
+            $url .= '?'.http_build_query($params);
+        }
+        return $url;
+    }
+}

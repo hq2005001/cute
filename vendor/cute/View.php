@@ -16,6 +16,13 @@ class View
             'debug' => true,
             'cache' => app('config')->get('view.cache_path'),
         ]);
+        $this->obj ->registerUndefinedFunctionCallback(function ($name) {
+            if (function_exists($name)) {
+                return new \Twig_SimpleFunction($name, $name);
+            }
+            
+            return false;
+        });
     }
     
     public function getObj()

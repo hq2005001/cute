@@ -286,4 +286,20 @@ class Request
         return $key === null ? $ds : (isset($ds[$key]) ? $ds[$key] : '');
     }
 
+    /**
+     * 得到协议
+     *
+     * @return void
+     */
+    public function protocol()
+    {
+        $prol = 'http://';
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+            $prol = 'https://';
+        } elseif (!empty($_SERVER['SERVER_PROTOCOL'])) {
+            $prol = explode('/', $_SERVER['SERVER_PROTOCOL']);
+            $prol = strtolower(reset($prol)) . '://';
+        }
+        return $prol;
+    }
 }
