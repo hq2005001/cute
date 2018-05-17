@@ -96,7 +96,7 @@ class Mysql extends DB
                 $direction
             ]);
         }
-        $sort = implode(' and ', $sortArr);
+        $sort = implode(' , ', $sortArr);
         return $sort;
     }
 
